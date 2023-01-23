@@ -1,6 +1,5 @@
 # zsh-vi-mode config
 function zvm_config() {
-    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
     ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 }
 
