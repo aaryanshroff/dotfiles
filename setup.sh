@@ -35,34 +35,37 @@ echo "Setting up VS Code..."
 
 # 1. Determine the correct settings folder based on OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS Path
     VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
 else
-    # Linux Path (Standard)
     VSCODE_USER_DIR="$HOME/.config/Code/User"
 fi
 
-# 2. Check if VS Code folder exists (skip if VS Code isn't installed)
+# 2. Check if VS Code folder exists
 if [ -d "$VSCODE_USER_DIR" ]; then
     echo "  VS Code detected at $VSCODE_USER_DIR"
     
-    KEYBINDINGS_SOURCE="$DOTFILES_DIR/vscode/keybindings.json"
-    KEYBINDINGS_DEST="$VSCODE_USER_DIR/keybindings.json"
+    # List of files to sync
+    VS_FILES="keybindings.json settings.json"
 
-    # Backup existing keybindings if they exist and aren't already symlinked
-    if [ -f "$KEYBINDINGS_DEST" ] && [ ! -L "$KEYBINDINGS_DEST" ]; then
-        echo "  Backing up existing keybindings..."
-        mv "$KEYBINDINGS_DEST" "$BACKUP_DIR/keybindings.json.bak"
-    fi
+    for file in $VS_FILES; do
+        SOURCE="$DOTFILES_DIR/vscode/$file"
+        DEST="$VSCODE_USER_DIR/$file"
 
-    # Remove old symlink if it exists
-    if [ -L "$KEYBINDINGS_DEST" ]; then
-        rm "$KEYBINDINGS_DEST"
-    fi
+        # Backup existing file if it's a real file (not a symlink)
+        if [ -f "$DEST" ] && [ ! -L "$DEST" ]; then
+            echo "  Backing up existing $file..."
+            mv "$DEST" "$BACKUP_DIR/${file}.bak"
+        fi
 
-    # Create the Symlink
-    echo "  Linking keybindings.json..."
-    ln -s "$KEYBINDINGS_SOURCE" "$KEYBINDINGS_DEST"
+        # Remove old symlink if it exists
+        if [ -L "$DEST" ]; then
+            rm "$DEST"
+        fi
+
+        # Create the new Symlink
+        echo "  Linking $file..."
+        ln -s "$SOURCE" "$DEST"
+    done
 else
     echo "  VS Code directory not found. Skipping VS Code setup."
 fi
