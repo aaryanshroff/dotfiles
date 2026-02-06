@@ -99,6 +99,9 @@ return packer.startup(function(use)
     -- github copilot
     use("github/copilot.vim")
 
+    -- discord rich presence
+    use("andweeb/presence.nvim")
+
     if packer_bootstrap then
         require("packer").sync()
     end

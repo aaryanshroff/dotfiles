@@ -1,3 +1,10 @@
 [user]
-email = aaryanshroff@gmail.com
+email = aaryan.shroff@uwaterloo.ca
 name = Aaryan Shroff
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[alias]
+	pullall = !git pull && git submodule update --init --recursive
