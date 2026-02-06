@@ -69,3 +69,32 @@ if [ -d "$VSCODE_USER_DIR" ]; then
 else
     echo "  VS Code directory not found. Skipping VS Code setup."
 fi
+
+# --- 4. Global Claude Setup ---
+echo "Setting up Global Claude Config..."
+
+# 1. Create the global config folder if it doesn't exist
+CLAUDE_DIR="$HOME/.claude"
+if [ ! -d "$CLAUDE_DIR" ]; then
+    echo "  Creating $CLAUDE_DIR..."
+    mkdir -p "$CLAUDE_DIR"
+fi
+
+# 2. Define Source (Repo) and Destination (Global Home)
+SOURCE="$DOTFILES_DIR/agents/AGENTS.md"
+DEST="$CLAUDE_DIR/CLAUDE.md"
+
+# 3. Backup existing file if it's a real file (not a symlink)
+if [ -f "$DEST" ] && [ ! -L "$DEST" ]; then
+    echo "  Backing up existing global CLAUDE.md..."
+    mv "$DEST" "$BACKUP_DIR/CLAUDE_Global.md.bak"
+fi
+
+# 4. Remove old symlink if it exists
+if [ -L "$DEST" ]; then
+    rm "$DEST"
+fi
+
+# 5. Link it
+echo "  Linking Global CLAUDE.md -> $SOURCE"
+ln -s "$SOURCE" "$DEST"
