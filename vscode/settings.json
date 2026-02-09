@@ -1,3 +1,5 @@
 {
-    "workbench.sideBar.location": "right"
+    "workbench.sideBar.location": "right",
+    "geminicodeassist.project": "quantum-hope-bdcjn",
+    "workbench.colorTheme": "Atom One Dark"
 }

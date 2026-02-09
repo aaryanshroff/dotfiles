@@ -1,8 +1,12 @@
+# --- PATH ---
+export PATH="$HOME/.local/bin:$PATH"
+
 # --- Git Shortcuts ---
 alias g='git'
 alias ga='git add'
 alias gaa='git add --all'
-alias gc='git commit -m'
+alias gc='git checkout'
+alias gcm='git commit -m'
 alias gs='git status'
 alias gpu='git push'
 alias gp='git pull'
