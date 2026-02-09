@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- Configuration ---
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKUP_DIR="$HOME/dotfiles_old"
 FILES=".zshrc .bashrc .gitconfig .shell_common"
 
