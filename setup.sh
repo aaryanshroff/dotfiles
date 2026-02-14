@@ -73,28 +73,38 @@ fi
 # --- 4. Global Claude Setup ---
 echo "Setting up Global Claude Config..."
 
-# 1. Create the global config folder if it doesn't exist
 CLAUDE_DIR="$HOME/.claude"
+
+# 1. Create directory
 if [ ! -d "$CLAUDE_DIR" ]; then
     echo "  Creating $CLAUDE_DIR..."
     mkdir -p "$CLAUDE_DIR"
 fi
 
-# 2. Define Source (Repo) and Destination (Global Home)
-SOURCE="$DOTFILES_DIR/agents/AGENTS.md"
-DEST="$CLAUDE_DIR/CLAUDE.md"
+# 2. Define files to sync
+# Format: "PathInRepo:FileNameInClaudeDir"
+# This maps 'agents/settings.json' (Repo) -> 'config.json' (System)
+CLAUDE_MAPPINGS="agents/AGENTS.md:CLAUDE.md agents/settings.json:config.json"
 
-# 3. Backup existing file if it's a real file (not a symlink)
-if [ -f "$DEST" ] && [ ! -L "$DEST" ]; then
-    echo "  Backing up existing global CLAUDE.md..."
-    mv "$DEST" "$BACKUP_DIR/CLAUDE_Global.md.bak"
-fi
+for mapping in $CLAUDE_MAPPINGS; do
+    REPO_FILE="${mapping%%:*}"
+    TARGET_NAME="${mapping##*:}"
+    
+    SOURCE="$DOTFILES_DIR/$REPO_FILE"
+    DEST="$CLAUDE_DIR/$TARGET_NAME"
 
-# 4. Remove old symlink if it exists
-if [ -L "$DEST" ]; then
-    rm "$DEST"
-fi
+    # Backup existing file if it's a real file (not a symlink)
+    if [ -f "$DEST" ] && [ ! -L "$DEST" ]; then
+        echo "  Backing up existing $TARGET_NAME..."
+        mv "$DEST" "$BACKUP_DIR/${TARGET_NAME}.bak"
+    fi
 
-# 5. Link it
-echo "  Linking Global CLAUDE.md -> $SOURCE"
-ln -s "$SOURCE" "$DEST"
+    # Remove old symlink if it exists
+    if [ -L "$DEST" ]; then
+        rm "$DEST"
+    fi
+
+    # Create the Link
+    echo "  Linking $TARGET_NAME -> $REPO_FILE"
+    ln -s "$SOURCE" "$DEST"
+done
