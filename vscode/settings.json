@@ -1,4 +1,29 @@
 {
-    "workbench.sideBar.location": "right",
-    "workbench.colorTheme": "Atom One Dark"
+  "claudeCode.preferredLocation": "panel",
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "claudeCode.selectedModel": "opus",
+  "git.autofetch": true,
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true
+  },
+  "http.systemCertificatesNode": true,
+  "geminicodeassist.project": "quantum-hope-bdcjn",
+  "workbench.colorTheme": "Monokai Pro",
+  "editor.tabCompletion": "on",
+  "geminicodeassist.displayInlineContextHint": false,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "editor.lineNumbers": "relative",
+  "editor.tabSize": 2,
 }
