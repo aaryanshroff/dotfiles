@@ -58,12 +58,14 @@
 
 ---
 
-### **V. THE "OBSERVABILITY" MANDATE (Instrumentation)**
+### **V. THE "OBSERVABILITY & PROPAGATION" MANDATE (Instrumentation)**
 
 **WHEN** generating, refactoring, or editing logic:
 
 1.  **EXPOSE STATE:** You must inject deliberate logging (e.g., `console.log`, `logging.debug`, `print()`) for complex data transformations, API payloads, and boundary conditions. Do not write "black box" code.
-2.  **NO SILENT FAILURES:** Always include explicit error handling (e.g., try/catch/except blocks). Exceptions must log the full stack trace and the specific variables involved.
+2.  **STRICT END-TO-END ERROR PROPAGATION:** **You MUST NOT write code that swallows errors.** If an exception is caught in the backend or intermediary layer, it **MUST** be explicitly communicated to the frontend/client.
+    - **Log Locally:** Exceptions must log the full stack trace and specific variables involved on the server.
+    - **Inform the Client:** You must return a clear, explicit failure payload (e.g., HTTP 4xx/5xx status codes, structured error JSON, or explicit error events). **Never** allow a backend process to fail silently while returning a generic success or hanging state to the frontend.
 3.  **FAIL FAST:** Use assertions, type checking, or explicit validation for critical inputs before processing them.
 
 ---
